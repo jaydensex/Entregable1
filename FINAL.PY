@@ -2,19 +2,25 @@ import numpy as np
 import tkinter as tk
 from tkinter import messagebox, simpledialog, ttk
 
+# Pregunta al iniciar si se usará matriz
+modo_matriz = messagebox.askyesno("Modo de entrada", "quieres trabajar con matrices en vez de vectoreS?")
 
-#Verificacion de vectores
+# Verificación de vectores/matrices
 def validar_vector(vector):
     if vector is None or len(vector) == 0:
-        raise ValueError("El vector no puede estar vacío.")
+        raise ValueError("El vector no puede estar vacio")
     if not isinstance(vector, np.ndarray):
-        raise ValueError("Debe ser un np.array.")
+        raise ValueError("Debe ser un np.array")
     return vector
 
-
+# Función principal
 def verificar_propiedad(propiedad, a, b=None, c=None, escalar=None):
     a = validar_vector(a)
 
+    if b is not None and a.ndim != b.ndim:
+        raise ValueError("A y B deben tener la misma dimension (ambos vectores o matrices).")
+    if c is not None and a.ndim != c.ndim:
+        raise ValueError("A y C deben tener la misma dimension (ambos vectores o matrices).")
 
     if propiedad == "conmutativa":
         b = validar_vector(b)
@@ -41,8 +47,7 @@ def verificar_propiedad(propiedad, a, b=None, c=None, escalar=None):
     else:
         raise ValueError("Propiedad no válida")
 
-
-#GRAFICOS
+# GRAFICOS
 def ejecutar():
     prop = propiedad_var.get()
     try:
@@ -51,15 +56,20 @@ def ejecutar():
         c = np.array(eval(entry_c.get())) if entry_c.get() else None
         k = float(entry_k.get()) if entry_k.get() else None
 
+        print(f"Dimension de A: {a.ndim}")
+        if b is not None:
+            print(f"Dimension de B: {b.ndim}")
+        if c is not None:
+            print(f"Dimension de C: {c.ndim}")
+        print("Modo actual:", "MATRIZ" if modo_matriz else "VECTOR")
         r1, r2, cumple = verificar_propiedad(prop, a, b, c, k)
-        resultado.set(f"Lado 1: {r1}\nLado 2: {r2}\nCumple: {'Sí' if cumple else 'No'}")
+        resultado.set(f"Lado 1: {r1}\nLado 2: {r2}\nCumple: {'Si' if cumple else 'No'}")
 
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
-
 root = tk.Tk()
-root.title("Verificación de propiedades vectoriales")
+root.title("Verificacion de propiedades vectoriales")
 
 propiedad_var = tk.StringVar()
 resultado = tk.StringVar()
