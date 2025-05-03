@@ -2,10 +2,10 @@ import numpy as np
 import tkinter as tk
 from tkinter import messagebox, simpledialog, ttk
 
-# Pregunta al iniciar si se usará matriz
+# Pregunta si se usara matriz
 modo_matriz = messagebox.askyesno("Modo de entrada", "quieres trabajar con matrices en vez de vectoreS?")
 
-# Verificación de vectores/matrices
+# Verificacin de vectores/matrices
 def validar_vector(vector):
     if vector is None or len(vector) == 0:
         raise ValueError("El vector no puede estar vacio")
@@ -13,7 +13,7 @@ def validar_vector(vector):
         raise ValueError("Debe ser un np.array")
     return vector
 
-# Función principal
+# Funcion principal
 def verificar_propiedad(propiedad, a, b=None, c=None, escalar=None):
     a = validar_vector(a)
 
